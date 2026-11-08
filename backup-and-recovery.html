@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backup and Recovery — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html" class="active">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>Backup and recovery</h1>
+<p>A bad shutdown mid-write is the classic way players lose saves. SavePoint Pro writes so that a crash at any point leaves the last good save intact.</p>
+<h2>The write path</h2>
+<p>Every write is atomic:</p>
+<ol><li>Serialize the envelope.</li><li>Write it to <code>&lt;file&gt;.tmp</code> and flush.</li><li>Rotate backups — <code>.bak1</code> … <code>.bak3</code> (the count is configurable, 1–5).</li><li>Replace the primary file with the new write.</li></ol>
+<p>At no point is the only good copy overwritten by unverified bytes.</p>
+<h2>The read path</h2>
+<p>Every read verifies the envelope's SHA-256 checksum. On failure the loader walks the backup chain newest-first and returns the first copy that verifies, raising <code>OnRecoveredFromBackup</code>. If every copy is damaged, the load fails clean with a plain-language result — and the files are preserved on disk, never silently wiped, so support can still look at them.</p>
+<h2>What this is tested against</h2>
+<p>The diagnostics self-check in the editor window exercises this exact machinery on demand: it writes an encrypted save in a temp folder, deliberately damages the primary, and recovers from backup — reporting each step. Run it any time from <strong>SavePoint Pro Home &gt; Diagnostics &gt; Run Self-Check</strong>.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

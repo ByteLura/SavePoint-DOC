@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Migration — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html" class="active">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>Versioned migration</h1>
+<p>Games update; saves must not break when they do. Every save carries a <strong>data version</strong> (an int, starting at 1). The current version is a Settings value you bump when your data shape changes.</p>
+<h2>Registering steps</h2>
+<pre><code class="language-csharp">SavePoint.RegisterMigration(1, data =&gt;
+{
+    // v1 -&gt; v2: coins moved under a wallet object
+    int coins = data.GetInt(&quot;coins&quot;);
+    data.SetInt(&quot;wallet.coins&quot;, coins);
+});</code></pre>
+<h2>What happens on load</h2>
+<p>If a file's version is below current, the registered steps apply in ascending order to an in-memory copy. The upgraded save is written back atomically <strong>only after the whole chain succeeds</strong>.</p>
+<h2>The safety rules</h2>
+<ul><li>A <strong>missing step</strong> throws <code>SaveMigrationException</code>, and the original file stays byte-identical — a failed upgrade never half-writes.</li><li>Migration happens before your game sees the data, so game code only ever reads the current version.</li><li>The diagnostics self-check runs a two-step version upgrade against a v1 fixture, so you can watch the chain work before trusting it with player saves.</li></ul>
+<p>Read this page before you bump the data version in a shipped update: the one thing migration cannot do is invent a step you did not write.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloud Sync — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html" class="active">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>Cloud sync interface</h1>
+<p>SavePoint Pro is <strong>not a cloud service</strong>, and no platform provider ships in the box. What ships is the seam: a four-method provider interface you implement against your own backend, plus a local mock provider for development, so nothing in your game depends on a live service while you build.</p>
+<figure class="doc-shot"><img src="images/cloud-1.jpg" alt="Cloud Sync tab in the editor window after a mock cloud test uploaded a slot"><figcaption>The Cloud Sync tab after a mock test: the slot was uploaded, and the mock now holds the newest copy.</figcaption></figure>
+<h2>The model</h2>
+<p>Saves live on the device. The cloud interface moves <strong>whole files</strong> between the device and your backend — it is single-device authority, not a multiplayer or server-authoritative save system.</p>
+<h2>How sync decides</h2>
+<p>When two copies of a slot diverge, sync takes the <strong>newer</strong> one. There is <strong>no save merging</strong> — fields from two copies are never combined. An exact tie is not resolved by a dialog; it is reported through the conflict callback so your game decides how to present it.</p>
+<h2>Develop with the mock first</h2>
+<p>Wire your UI and flows against the local mock provider (the diagnostics self-check runs a mock sync roundtrip). Swap in your real provider behind the same interface when the backend is ready. A platform provider (for example against a storefront SDK) follows the same shape: read a file, write a file, list, delete — the example shape is in the package's cloud sync guide.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

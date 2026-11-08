@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick Start — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html" class="active">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>Quick start</h1>
+<p>From import to a restored save in about five minutes. You create nothing by hand at any step.</p>
+<h2>1. Run setup (one click)</h2>
+<p>Open <strong>Tools &gt; ByteLura &gt; SavePoint Pro &gt; SavePoint Pro Home</strong> and click <strong>Run Setup / Verify Install</strong> on the welcome screen.</p>
+<p>Setup creates <code>Assets/SavePointPro/Resources/SavePointSettings.asset</code> with a fresh developer key, then writes and reads back a real test save and tells you the result in plain language. Re-running setup later is safe: your key and settings are kept.</p>
+<p>Set your own developer key in the Settings tab before you ship. Anyone with the key can open your saves, so treat it like a password.</p>
+<h2>2. Play the demo (one click)</h2>
+<p>Click <strong>Open Samples</strong> on the welcome screen. The Coin Collector demo is copied into your project and its scene opens. Press Play:</p>
+<ol><li>On the slot screen, pick a slot and start a new game.</li><li>Collect some coins with WASD or the arrow keys. Autosave runs every 20 seconds; the Checkpoint button writes a named checkpoint slot.</li><li>Stop Play, press Play again, and <strong>Load</strong> your slot.</li></ol>
+<p>Your coins, position, and playtime are back. That is the product working end to end. Open the home window's <strong>Saves</strong> tab to see the slot you just made, with its real metadata.</p>
+<h2>3. Save from your own game</h2>
+<pre><code class="language-csharp">using ByteLura.SavePointPro;
+
+// Build your data (Version is stamped for you)
+var data = SavePoint.NewData();
+data.SetInt(&quot;coins&quot;, 42);
+data.SetString(&quot;heroName&quot;, &quot;Ada&quot;);
+data.SetVector3(&quot;position&quot;, player.transform.position);
+
+// Save it to slot 0 of the active profile
+var saved = SavePoint.Save(0, data, &quot;Level 3 - 42 coins&quot;);
+if (!saved.Success) Debug.Log(saved.Message);
+
+// Later, or next launch
+var loaded = SavePoint.Load(0);
+if (loaded.Success)
+{
+    int coins = loaded.Data.GetInt(&quot;coins&quot;);
+    player.transform.position = loaded.Data.GetVector3(&quot;position&quot;);
+}</code></pre>
+<p>Expected problems — an empty slot, a damaged file, a save from a newer build — come back as results with plain-language messages, never as exceptions. The summary string you pass to Save is what the slot screen shows the player.</p>
+<h2>4. Add autosave</h2>
+<p>Put a <strong>SavePointAutosave</strong> component on any GameObject, keep its <code>Data</code> pointing at your SaveData, and it saves on an interval, when the game pauses, and when the player quits. Named checkpoints are one call: <code>SavePoint.Checkpoint("boss-door", data)</code>.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

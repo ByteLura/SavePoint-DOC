@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sample — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html" class="active">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>The Coin Collector sample</h1>
+<p>The shipped sample is a complete mini game loop wired to SavePoint Pro end to end — not a code snippet.</p>
+<ul><li><strong>Slot select</strong> on the product's own slot screen: pick a slot, start a new game.</li><li><strong>Play</strong>: collect coins with WASD or the arrow keys.</li><li><strong>Autosave</strong> every 20 seconds via the SavePointAutosave component, plus a <strong>Checkpoint</strong> button that writes a named checkpoint slot.</li><li><strong>Relaunch and Load</strong>: stop Play, press Play again, load the slot — coins, position, and playtime are restored.</li></ul>
+<p>Import it from the home window's <strong>Open Samples</strong> button (Package Manager &gt; SavePoint Pro &gt; Samples &gt; Coin Collector also works). After playing, open the home window's <strong>Saves</strong> tab: the slot you made is listed with its real metadata — summary, playtime, data version.</p>
+<p>The sample is the fastest way to see every headline feature working before you wire your own game: slots, autosave, checkpoints, and a restored run after a relaunch.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

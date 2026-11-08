@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encryption — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html" class="active">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>Encryption</h1>
+<p>Save files are encrypted with <strong>AES-256</strong> over the envelope payload. Encryption is <strong>on by default</strong>; it is a Settings toggle, and the envelope flag records whether a given file is encrypted.</p>
+<ul><li>The key is derived from the developer key string in your Settings asset via <strong>PBKDF2 with 100,000 iterations</strong>.</li><li>Every write uses a fresh random salt and IV, stored in the file header.</li><li>Set your own developer key before you ship, and treat it like a password: anyone who has it can open your saves.</li></ul>
+<h2>What a wrong key does</h2>
+<p>A wrong key or a tampered ciphertext fails the checksum/decrypt step cleanly and falls into the backup chain — exactly like a corrupted file. You never get a partial or garbled load: either the data verifies and loads, or the recovery walk takes over, or the load result explains the failure in plain language.</p>
+<p>Encryption protects save files at rest on the player's machine. It is not DRM and does not stop a determined owner of the machine from extracting the key from a shipped build — no client-side scheme can. What it does stop is casual save editing and file sharing of saves.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

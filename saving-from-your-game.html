@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saving from Your Game — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html" class="active">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>Saving from your game</h1>
+<h2>The everyday calls</h2>
+<ul><li><code>SavePoint.NewData()</code> — a fresh SaveData with the current data version stamped.</li><li><code>SavePoint.Save(slot, data, summary)</code> — writes a slot of the active profile. Returns a <code>SaveResult</code>.</li><li><code>SavePoint.Load(slot)</code> — returns a <code>LoadResult</code> with the data, after checksum verification, backup recovery if needed, and migration if the file is older than the current data version.</li><li><code>SavePoint.Checkpoint(name, data)</code> — a named checkpoint slot.</li><li><code>SavePoint.Configure(...)</code> — point the facade at your settings, profile, and storage.</li></ul>
+<h2>Results, not exceptions</h2>
+<p>Expected problems come back as results with plain-language messages: an empty slot, a damaged file with no good backup, a save written by a newer build of your game. The messages are written to be shown in a log or pasted into a support mail. Programming errors (a missing migration step) throw — see the migration page.</p>
+<h2>Autosave</h2>
+<p>The <strong>SavePointAutosave</strong> component saves on an interval, when the game pauses, and when the player quits. Keep its <code>Data</code> reference pointing at your live SaveData. In the shipped demo it runs every 20 seconds.</p>
+<h2>Events</h2>
+<p>The facade raises events around saves and loads, including <code>OnRecoveredFromBackup</code> when a read had to walk the backup chain — the hook to use if your game wants to tell the player their save was recovered rather than lost.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

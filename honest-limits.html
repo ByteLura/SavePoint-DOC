@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Honest Limits — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html" class="active">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>What version 1 is not</h1>
+<p>An honest list, so you can decide with the full picture.</p>
+<ul><li><strong>Not a cloud service.</strong> Sync is an interface plus a local mock. No platform provider (Steam, PlayFab, console, or any other) ships in the box; you implement the four-method interface against your own backend.</li><li><strong>Not a save editor.</strong> The editor window browses slot metadata and deletes slots. It does not open or edit the contents of a save.</li><li><strong>No compression.</strong> Save files are as large as the data in them. The binary format is compact framing, not compression.</li><li><strong>No save merging.</strong> When two copies of a slot diverge, sync picks the newer one (or asks your conflict handler). It never merges fields.</li><li><strong>No visual conflict resolution.</strong> Exact-tie conflicts are reported through the conflict callback, not a dialog.</li><li><strong>No cross-product import.</strong> SavePoint Pro reads its own files only. It does not import saves written by other save products.</li><li><strong>One UI flavour.</strong> The slot screen is uGUI, built in code, in one neutral dark theme you can recolour. There is no TextMeshPro variant in version 1.</li><li><strong>Single-device authority.</strong> Saves live on the device; the cloud interface moves whole files. This is not a multiplayer or server-authoritative save system.</li><li><strong>Console note.</strong> No console SDK code ships. On console, the storage and cloud interfaces are yours to implement against the platform SDK; everything above them works the same.</li></ul>
+<h2>Support</h2>
+<p>Support: bytelura@gmail.com. Write to that address — keeping one support door means nothing gets lost between inboxes.</p>
+<p>Before you write, run the self-check (<strong>SavePoint Pro Home &gt; Diagnostics &gt; Run Self-Check</strong>) and include its six step results, your Unity version (2022.3 LTS or Unity 6), the SavePoint Pro version, and the exact result message the API returned. Support will never ask for your developer key or your players' save files — never send either.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

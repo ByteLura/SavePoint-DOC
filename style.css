@@ -1,0 +1,64 @@
+/* SavePoint Pro documentation - shared stylesheet.
+   Identity: deep indigo ground, amber accent, warm cream surfaces
+   (taken from the product's shipped icon and card art). */
+:root{
+  --indigo:#0f1440; --indigo-2:#1a2058; --amber:#ef9e2a; --amber-soft:#ffb454;
+  --cream:#fdeac5; --paper:#faf6ee; --ink:#20222b; --muted:#5b5f6e;
+  --line:#e5ddcb; --code-bg:#141a45;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--paper);color:var(--ink);line-height:1.65;font-size:16.5px}
+.site-header{background:var(--indigo);color:var(--cream);padding:20px 28px 16px;
+  border-bottom:4px solid var(--amber)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{background:var(--amber);color:var(--indigo);font-weight:800;border-radius:8px;
+  padding:4px 10px;font-size:19px;letter-spacing:.5px}
+.brand-name{font-size:26px;font-weight:700;letter-spacing:.2px}
+.brand-sub{margin-top:4px;color:#c9cdea;font-size:14px}
+.layout{display:flex;align-items:stretch;max-width:1240px;margin:0 auto}
+.sidebar{width:262px;flex:0 0 262px;padding:26px 10px 26px 22px;
+  border-right:1px solid var(--line);background:#f4efe2}
+.sidebar ul{list-style:none;margin:0;padding:0;position:sticky;top:22px}
+.sidebar li{margin:0 0 2px}
+.sidebar a{display:block;padding:7px 12px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:15px}
+.sidebar a:hover{background:#ece4cf}
+.sidebar a.active{background:var(--indigo);color:var(--cream);font-weight:600;
+  box-shadow:inset 3px 0 0 var(--amber)}
+.content{flex:1 1 auto;min-width:0;padding:30px 40px 46px;max-width:880px}
+.content h1{font-size:31px;line-height:1.25;margin:2px 0 18px;color:var(--indigo);
+  border-bottom:2px solid var(--amber);padding-bottom:10px}
+.content h2{font-size:23px;margin:32px 0 10px;color:var(--indigo)}
+.content h3{font-size:18.5px;margin:24px 0 8px;color:var(--indigo-2)}
+.content p{margin:10px 0}
+.content ul,.content ol{margin:10px 0 14px;padding-left:26px}
+.content li{margin:5px 0}
+.content a{color:#9c6205;text-decoration:underline}
+.content a:hover{color:var(--indigo)}
+code{font-family:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;font-size:.88em;
+  background:#efe8d3;border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+pre{background:var(--code-bg);border-radius:10px;padding:16px 18px;overflow-x:auto;
+  margin:14px 0;border-left:4px solid var(--amber)}
+pre code{background:none;border:none;padding:0;color:#f2ecdc;font-size:14px;line-height:1.55}
+table{border-collapse:collapse;margin:14px 0;width:100%;font-size:15px}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:var(--indigo);color:var(--cream);font-weight:600}
+tr:nth-child(even) td{background:#f4efe2}
+.doc-hero{margin:18px 0 6px}
+.doc-hero img{max-width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:10px}
+.doc-shot{margin:18px 0}
+.doc-shot img{max-width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:10px}
+.doc-hero figcaption,.doc-shot figcaption{margin-top:8px;color:var(--muted);font-size:14px;line-height:1.5}
+.page-footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:14px}
+.page-footer a{color:#9c6205}
+@media (max-width:760px){
+  .layout{flex-direction:column}
+  .sidebar{width:auto;flex:none;border-right:none;border-bottom:1px solid var(--line);
+    padding:14px 16px}
+  .sidebar ul{position:static;columns:2}
+  .content{padding:22px 18px 34px}
+  .brand-name{font-size:22px}
+}

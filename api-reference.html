@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Reference — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html" class="active">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>API reference</h1>
+<p>Namespace: <code>ByteLura.SavePointPro</code>. Everything your game calls is static on <code>SavePoint</code> and <code>SaveProfiles</code>, plus two components (<code>SavePointAutosave</code>, <code>SaveSlotPanel</code>).</p>
+<h2>SavePoint</h2>
+<h3>Settings and profiles</h3>
+<ul><li><code>SavePointSettings Settings { get; }</code> — the active settings. Found automatically in a Resources folder, or handed over with <code>SavePoint.Configure(settings)</code>.</li><li><code>string ActiveProfileId { get; }</code> — the profile saves go to. The first profile is created for you ("Player 1") if none exists.</li><li><code>void SetActiveProfile(string profileId)</code></li><li><code>SaveData NewData()</code> — fresh data stamped with the current data version.</li><li><code>int CurrentDataVersion { get; }</code></li></ul>
+<h3>Saving and loading</h3>
+<ul><li><code>SaveResult Save(int slot, SaveData data, string summary = null)</code> — slots are 0 to 9. The summary is the line your players see on the slot screen.</li><li><code>SaveResult SaveNamed(string slotName, SaveData data, string summary = null)</code> — saves to the slot with that name, creating it in the first free slot.</li><li><code>LoadResult Load(int slot)</code> / <code>LoadResult LoadNamed(string slotName)</code></li><li><code>bool SlotExists(int slot)</code></li><li><code>SlotMetadata GetSlotMetadata(int slot)</code> — null when the slot is empty.</li><li><code>IReadOnlyList&lt;SlotMetadata&gt; ListSlots(string profileId)</code></li><li><code>SaveResult DeleteSlot(int slot)</code> — removes the file and its backups.</li><li><code>void Checkpoint(string checkpointName, SaveData data)</code> — writes to the same-named checkpoint slot, or the first free slot.</li></ul>
+<h3>Migration and custom types</h3>
+<ul><li><code>void RegisterMigration(int fromVersion, Action&lt;SaveData&gt; step)</code> — one upgrade step, fromVersion to fromVersion + 1. Register at startup, before any load. See the migration guide.</li><li><code>void RegisterSerializer&lt;T&gt;(Func&lt;T, string&gt; to, Func&lt;string, T&gt; from)</code> — custom text serializer used by <code>SaveData.SetObject/GetObject</code> for that type, in place of JSON.</li></ul>
+<h3>Cloud</h3>
+<ul><li><code>ISaveCloudProvider CloudProvider { get; set; }</code> — your provider, or the shipped <code>MockCloudProvider</code>. Null means local only.</li><li><code>SaveCloudSync.SyncSlotAsync(profileId, slot)</code> — newest-wins sync of one slot; <code>SaveCloudSync.OnConflict</code> decides exact-tie conflicts. See the cloud sync guide.</li></ul>
+<h3>Events</h3>
+<ul><li><code>OnAfterSave(SaveResult)</code>, <code>OnLoaded(LoadResult)</code>, <code>OnSaveFailed(SaveResult)</code> — every completed save/load reports here.</li><li><code>OnRecoveredFromBackup(SlotMetadata)</code> — a load used a backup because the newest file failed its integrity check. A good moment to tell the player, in your own words, that their progress is safe.</li></ul>
+<h2>SaveData</h2>
+<p>Typed key-value store. Setters: <code>SetInt</code>, <code>SetLong</code>, <code>SetFloat</code>, <code>SetDouble</code>, <code>SetBool</code>, <code>SetString</code>, <code>SetVector2</code>, <code>SetVector3</code>, <code>SetQuaternion</code>, <code>SetColor</code>, <code>SetIntArray</code>, <code>SetFloatArray</code>, <code>SetStringArray</code>, <code>SetObject&lt;T&gt;</code>. Getters mirror them and take a default returned when the key is missing (<code>GetInt("coins", 0)</code>). Also <code>HasKey</code>, <code>RemoveKey</code>, <code>Clear</code>, <code>Keys</code> (sorted), <code>Count</code>, <code>Version</code>, and <code>PlaytimeSeconds</code> (total seconds played; your game accumulates it, the slot screen displays it).</p>
+<p>The same data always serializes to the same bytes, so saves can be diffed and hashed in your own tests.</p>
+<h2>SaveProfiles</h2>
+<ul><li><code>ProfileInfo CreateProfile(string displayName)</code> — creating an existing name returns that profile.</li><li><code>IReadOnlyList&lt;ProfileInfo&gt; ListProfiles()</code></li><li><code>ProfileInfo GetProfile(string profileId)</code></li><li><code>SaveResult RenameProfile(string profileId, string newName)</code></li><li><code>SaveResult DeleteProfile(string profileId)</code> — removes the profile, its slot files, and their backups. Other profiles are untouched.</li></ul>
+<h2>Types</h2>
+<ul><li><code>ProfileInfo</code> — Id, DisplayName, CreatedUtc.</li><li><code>SlotMetadata</code> — SlotIndex, SlotName, ProfileId, CreatedUtc, ModifiedUtc, PlaytimeSeconds, DataVersion, Summary, IsCheckpoint, State (Occupied, RecoveredFromBackup, Unreadable).</li><li><code>SaveResult</code> — Success, Message, Metadata. Returned by save, delete, and profile actions.</li><li><code>LoadResult</code> — Success, Message, Data, RecoveredFromBackup, NewerVersion (the save came from a newer build of your game; it was loaded without changes).</li><li><code>SaveMigrationException</code> — carries FromVersion and ToVersion. Load catches it and reports the gap as a LoadResult; it reaches your code only if you drive the chain yourself.</li></ul>
+<h2>Components</h2>
+<h3>SavePointAutosave</h3>
+<p>Fields: <code>SlotIndex</code>, <code>IntervalSeconds</code> (0 disables the interval), <code>SaveOnPause</code>, <code>SaveOnQuit</code>, <code>SaveOnSceneChange</code>, and <code>Data</code> — the SaveData it keeps saved. <code>OnAutosaved(SaveResult)</code> fires after each attempt.</p>
+<h3>SaveSlotPanel</h3>
+<p>Add to a Canvas; it builds its own interface: profile header with a switcher, the ten slot cards, and Save / Load / Delete / New Game actions with a two-step delete confirm. Events <code>OnSaveRequested</code>, <code>OnLoadRequested</code>, <code>OnDeleteRequested</code>, <code>OnNewGameRequested</code> carry the slot index. For zero-code use, set <code>ActDirectly</code> (on by default) and a <code>DataProvider</code> (<code>Func&lt;int, SaveData&gt;</code>): loads and deletes then work with no game code, and <code>LastLoadedData</code> holds the last loaded save. When you subscribe to an event yourself, that action is yours.</p>
+<h3>SavePointSettings</h3>
+<p>Created by Setup in a Resources folder. Fields: <code>EnableEncryption</code> (on by default), <code>DeveloperKey</code>, <code>BackupCount</code> (1-5, default 3), <code>Format</code> (Json or Binary), <code>RootFolderOverride</code> (empty means the default per-user save folder), <code>CurrentDataVersion</code>. Edit it in the home window's Settings tab.</p>
+<h2>Storage seam</h2>
+<p><code>ISaveStorage</code> (Exists, Read, WriteAtomic, Delete, List) is the seam under everything; <code>FileSaveStorage</code> is the shipped implementation. Advanced projects can substitute their own storage by implementing the interface — every guarantee in this package (atomic writes, backups, recovery) is expressed through it.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

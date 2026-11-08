@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SavePoint Pro — Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>SavePoint Pro — Documentation</h1>
+<p>SavePoint Pro is a complete save system for Unity games: encrypted, slotted, autosaving saves that survive bad shutdowns and game updates. Your game talks to a single static class, <code>SavePoint</code>. Data lives in a <code>SaveData</code>; slots and profiles organize it; encryption, backups, migration and autosave happen behind that one door.</p>
+<figure class="doc-hero"><img src="images/hero.jpg" alt="SavePoint Pro editor window in Unity showing the Overview tab with setup complete and verified"><figcaption>The SavePoint Pro editor window: setup verified, with install status and current save counts on the Overview tab.</figcaption></figure>
+<h2>Pages</h2>
+<ol><li><a href="quick-start.html">Quick start</a> — install, set up, and your first restored save in about five minutes.</li><li><a href="core-concepts.html">Core concepts</a> — SaveData, envelopes, profiles and slots, the storage seam.</li><li><a href="saving-from-your-game.html">Saving from your game</a> — the everyday API, results instead of exceptions, autosave and checkpoints.</li><li><a href="encryption.html">Encryption</a> — how AES-256 is applied, the developer key, and what a wrong key does.</li><li><a href="backup-and-recovery.html">Backup and recovery</a> — atomic writes, backup rotation, and the recovery walk.</li><li><a href="migration.html">Versioned migration</a> — upgrading old saves instead of breaking them.</li><li><a href="editor-window.html">The editor window</a> — setup, overview, saves browser, diagnostics self-check.</li><li><a href="cloud-sync.html">Cloud sync interface</a> — the four-method provider interface, the local mock, conflict rules.</li><li><a href="sample.html">The Coin Collector sample</a> — the shipped demo and what it proves.</li><li><a href="honest-limits.html">What version 1 is not</a> — the honest limits list, plus support.</li></ol>
+<h2>Gallery</h2>
+<figure class="doc-shot"><img src="images/editor-1.jpg" alt="Saves tab in the SavePoint Pro editor window showing slot metadata for Player 1"><figcaption>The Saves browser shows slot metadata for the selected profile, including state, last saved time, and playtime.</figcaption></figure>
+<figure class="doc-shot"><img src="images/editor-2.jpg" alt="Diagnostics tab showing the self-check results with every step marked as passed"><figcaption>The Diagnostics self-check runs an encrypted save, a load, backup recovery, a version upgrade, and a mock sync, and reports each step.</figcaption></figure>
+<figure class="doc-shot"><img src="images/game-1.jpg" alt="Coin Collector sample game showing the slot picker screen with ten empty slots for Player 1"><figcaption>The Coin Collector sample opens on a slot picker with ten slots per profile and Save, Load, Delete, and New Game actions.</figcaption></figure>
+<figure class="doc-shot"><img src="images/game-2.jpg" alt="Coin Collector sample gameplay in the Unity Game view showing collected coins and elapsed play time"><figcaption>Coin Collector gameplay in the Game view, with the coin count and elapsed play time shown at the top.</figcaption></figure>
+<h2>Requirements</h2>
+<p>Unity 2022.3 LTS or Unity 6. One Unity package dependency: uGUI 1.0.0. No third-party dependencies.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

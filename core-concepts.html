@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core Concepts — SavePoint Pro Documentation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">SP</span><span class="brand-name">SavePoint&nbsp;Pro</span></div>
+  <div class="brand-sub">Documentation &middot; ByteLura</div>
+</header>
+<div class="layout">
+  <nav class="sidebar" aria-label="Documentation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quick-start.html">Quick Start</a></li>
+        <li><a href="core-concepts.html" class="active">Core Concepts</a></li>
+        <li><a href="saving-from-your-game.html">Saving from Your Game</a></li>
+        <li><a href="encryption.html">Encryption</a></li>
+        <li><a href="backup-and-recovery.html">Backup and Recovery</a></li>
+        <li><a href="migration.html">Migration</a></li>
+        <li><a href="editor-window.html">Editor Window</a></li>
+        <li><a href="cloud-sync.html">Cloud Sync</a></li>
+        <li><a href="sample.html">The Sample</a></li>
+        <li><a href="api-reference.html">API Reference</a></li>
+        <li><a href="honest-limits.html">Honest Limits</a></li>
+        <li><a href="support.html">Support</a></li>
+    </ul>
+  </nav>
+  <main class="content">
+<h1>Core concepts</h1>
+<figure class="doc-shot"><img src="images/editor-1.jpg" alt="Saves tab showing one of ten slots in use for the Player 1 profile"><figcaption>Profiles and slots in the editor: the Saves tab lists the slots in use for the selected profile.</figcaption></figure>
+<h2>SaveData — one typed store</h2>
+<p>A <code>SaveData</code> is a typed key-value store. Accessors cover int, long, float, double, bool, string, Vector2, Vector3, Quaternion, Color, and string/int/float arrays; arbitrary <code>[Serializable]</code> objects go through <code>SetObject&lt;T&gt;</code> / <code>GetObject&lt;T&gt;</code>. Custom serializers register per type with <code>SavePoint.RegisterSerializer&lt;T&gt;</code>. Keys are case-sensitive strings; enumeration is sorted-ordinal.</p>
+<p>Serialization is <strong>deterministic</strong>: the same SaveData always produces the same bytes (sorted keys, invariant-culture numbers). A save file is a fixture-grade artifact — diffable, hashable, testable.</p>
+<h2>Two envelopes</h2>
+<ul><li><strong>JSON envelope</strong> — the whole store as one deterministic JSON document. Human-readable and diffable.</li><li><strong>Binary envelope</strong> — magic <code>SPP1</code>, a format-version byte, flags (encrypted; compression is never used in v1), payload length, a SHA-256 of the payload, then the payload.</li></ul>
+<p>Every read verifies the envelope checksum before anything is trusted.</p>
+<h2>Profiles and slots</h2>
+<p>A <strong>profile</strong> is a player identity (id + display name). Each profile owns <strong>10 named slots</strong>. Profiles are unlimited and fully isolated: no API surface lets one profile read another's slots.</p>
+<p>A profile registry file (<code>profiles.spp</code>, atomic and checksummed, unencrypted — metadata only, never game data) lists profiles and per-slot metadata: slot name, created UTC, modified UTC, playtime seconds, data version, and a game-supplied summary string such as "Level 3 — 42 coins".</p>
+<p>Saving to a new slot beyond 10 in one profile is rejected with a plain-language result; overwriting an existing slot is explicit. Deleting a slot removes its file chain.</p>
+<h2>The storage seam</h2>
+<p>All file access goes through <code>ISaveStorage</code> (Read / Write / Exists / Delete / List). The shipped <code>FileSaveStorage</code> is rooted at a configurable directory (default <code>Application.persistentDataPath/SavePointPro</code>). Because storage is an interface, platforms with different file rules implement the seam instead of forking the system.</p>
+    <footer class="page-footer">
+      SavePoint Pro &middot; ByteLura &mdash; Support: <a href="mailto:bytelura@gmail.com">bytelura@gmail.com</a>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
